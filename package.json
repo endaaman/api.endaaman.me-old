@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "forever -w -c \"node --harmony\" bootstrap.js",
+    "stop": "forever stop bootstrap.js",
+    "restart": "forever restart bootstrap.js",
+    "up": "NODE_ENV=production forever start -c \"node --harmony\" bootstrap.js",
+    "up-local": "NODE_ENV=production MACHINE=local forever start -c \"node --harmony\" bootstrap.js"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.3",
+    "co": "^4.5.4",
+    "coffee-script": "^1.9.3",
+    "jsonwebtoken": "^5.0.2",
+    "koa": "^0.21.0",
+    "koa-bodyparser": "^2.0.0",
+    "koa-compose": "^2.3.0",
+    "koa-cors": "0.0.16",
+    "koa-json": "^1.1.1",
+    "koa-logger": "^1.2.2",
+    "koa-mongo": "^0.3.1",
+    "koa-response-time": "^1.0.2",
+    "koa-route": "^2.4.1",
+    "koa-router": "^5.1.2",
+    "lodash": "^3.9.3",
+    "mecab-async": "^0.1.0",
+    "monk": "^1.0.1",
+    "q": "^1.4.1"
+  }
+}
