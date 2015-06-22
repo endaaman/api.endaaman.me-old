@@ -8,8 +8,6 @@ json = require 'koa-json'
 
 config = require './config'
 
-console.log cors
-
 app = koa()
 app
 .use cors config.cors
