@@ -14,11 +14,11 @@ cors = ->
 
 listen = ->
     # TODO: enable unix domain socket mode
-    # if prod
-    #     '/var/tmp/enda-api.sock'
-    # else
-    #     3000
-    3000
+    if prod
+        # '/var/tmp/enda-api.sock'
+        3001
+    else
+        3000
 
 module.exports =
     cors: cors()
