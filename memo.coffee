@@ -27,9 +27,12 @@ router.post '/', auth, (next)->
     yield next
 
 
-router.get '/:id', (next)->
-    doc = yield memos.findById this.params.id
-    @body = doc
+router.get '/:title', (next)->
+    doc = yield memos.findOne title: this.params.title
+    if doc
+        @body = doc
+    else
+        @status = 404
     yield next
 
 
