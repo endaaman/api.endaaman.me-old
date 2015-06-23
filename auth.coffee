@@ -40,27 +40,27 @@ auth = (next)->
     yield next
 
 
-router.post '/users', (next)->
-    valid = @request.body.username and @request.body.password
-    if not valid
-        @throw 400
-
-    doc = yield users.findOne username: @request.body.username
-    if doc
-        @throw 400
-
-    salt = yield bcryptGenSalt 10
-    password = yield bcryptHash @request.body.password, salt
-
-    user =
-        username: @request.body.username
-        password: password
-        salt: salt
-
-    doc = yield users.insert user
-    @body = _.pick doc, ['_id', 'username']
-    @status = 200
-    yield next
+# router.post '/users', (next)->
+#     valid = @request.body.username and @request.body.password
+#     if not valid
+#         @throw 400
+#
+#     doc = yield users.findOne username: @request.body.username
+#     if doc
+#         @throw 400
+#
+#     salt = yield bcryptGenSalt 10
+#     password = yield bcryptHash @request.body.password, salt
+#
+#     user =
+#         username: @request.body.username
+#         password: password
+#         salt: salt
+#
+#     doc = yield users.insert user
+#     @body = _.pick doc, ['_id', 'username']
+#     @status = 200
+#     yield next
 
 
 router.get '/users', auth, (next)->
