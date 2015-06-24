@@ -1,11 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "start": "forever -w -c \"node --harmony\" bootstrap.js",
-    "stop": "forever stop bootstrap.js",
-    "restart": "forever restart bootstrap.js",
-    "up": "NODE_ENV=production forever start -c \"node --harmony\" bootstrap.js",
-    "up-local": "NODE_ENV=production MACHINE=local forever start -c \"node --harmony\" bootstrap.js"
+    "start": "pm2 start bootstrap.js --watch --node-args \"--harmony\" --name enda-api",
+    "up": "pm2 start bootstrap.js --node-args \"--harmony\" --name enda-api"
   },
   "dependencies": {
     "bcrypt": "^0.8.3",
