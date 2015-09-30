@@ -6,8 +6,5 @@ env.user = 'endaken'
 env.key_filename = '~/.ssh/sakura'
 
 def deploy():
-    with cd('/var/www/enda'):
-        run('git pull origin master')
-        run('npm i')
-        run('npm stop > /dev/null')
-        run('npm run prod')
+    with cd('/var/www/enda-api'):
+        run('bash build.sh')
