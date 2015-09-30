@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "pm2 start bootstrap.js --watch --node-args \"--harmony\" --name enda-api",
-    "up": "pm2 start bootstrap.js --node-args \"--harmony\" --name enda-api",
+    "prod": "pm2 start bootstrap.js --node-args \"--harmony\" --name enda-api",
     "stop": "pm2 stop enda-api"
   },
   "dependencies": {
