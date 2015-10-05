@@ -5,7 +5,7 @@ prod = process.env.NODE_ENV is 'production'
 cors = ->
     if prod
         origin: 'http://endaaman.me'
-        headers: ['Content-Type', 'Authorization', 'Accept']
+        headers: ['Content-Type', 'Authorization', 'Accept', 'If-Modified-Since']
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
     else
         origin: true
