@@ -6,7 +6,7 @@ cors = ->
     methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
     if prod
         origin: 'http://endaaman.me'
-        headers: ['Content-Type', 'Authorization', 'Accept']
+        headers: ['Content-Type', 'Authorization', 'Accept', 'If-Modified-Since']
         methods: methods
     else
         origin: true
