@@ -17,7 +17,8 @@ router.get '/', user, (next)->
     fields = '-content'
 
     opt =
-        created_at: -1
+        sort:
+            created_at: -1
 
     if limit = Number @query.limit
         opt.limit = limit
