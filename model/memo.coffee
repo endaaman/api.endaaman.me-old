@@ -6,13 +6,14 @@ module.exports = new Schema
     title:
         type: String
         required: true
-    draft:
-        type: Boolean
-        required: true
         index:
             unique: true
     digest:
         type: String
+        required: true
+    draft:
+        type: Boolean
+        required: true
     content:
         type: String
         required: true
