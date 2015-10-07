@@ -10,7 +10,6 @@ module.exports = new Schema
             unique: true
     digest:
         type: String
-        required: true
     draft:
         type: Boolean
         required: true
