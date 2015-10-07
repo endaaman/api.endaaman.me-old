@@ -19,7 +19,7 @@ filterFunc = (filename)->
     true
 
 
-router.get '/', (next)->
+router.get '/', auth, (next)->
     files = yield fs.readdir config.uploadDir
     @body = _.filter files, filterFunc
     yield next
