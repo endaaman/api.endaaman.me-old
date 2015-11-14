@@ -7,6 +7,7 @@ logger = require 'koa-logger'
 responseTime = require 'koa-response-time'
 bodyParser = require 'koa-bodyparser'
 json = require 'koa-json'
+serve = require 'koa-static'
 
 config = require './config'
 
@@ -37,11 +38,20 @@ api.get '/', (next)->
         message: 'Welcome to api.endaaman.me'
     yield next
 
+if not config.prod
+    api.all '/static/*', (next)->
+        parts = @path.split '/'
+        parts.splice 1, 1
+        @path = parts.join '/'
+        yield next
+    , serve config.uploadDir
+
 # API server
 app
 .use api.routes()
 .use api.allowedMethods()
-.listen config.port
+app.listen config.port
+
 
 # SEO server
 http  = require 'http'
@@ -49,3 +59,5 @@ spaseo = require 'spaseo.js'
 http.createServer spaseo
     verbose: not config.prod
 .listen config.portSeo
+
+console.info 'Started enda-api server.'
