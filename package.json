@@ -26,7 +26,6 @@
     "mecab-async": "^0.1.0",
     "mongoose": "^4.1.9",
     "mongoose-relationship": "^0.1.4",
-    "q": "^1.4.1",
-    "spaseo.js": "^0.1.5"
+    "q": "^1.4.1"
   }
 }

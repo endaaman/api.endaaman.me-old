@@ -52,12 +52,4 @@ app
 .use api.allowedMethods()
 app.listen config.port
 
-
-# SEO server
-http  = require 'http'
-spaseo = require 'spaseo.js'
-http.createServer spaseo
-    verbose: not config.prod
-.listen config.portSeo
-
 console.info 'Started enda-api server.'
