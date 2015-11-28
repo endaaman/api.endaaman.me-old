@@ -2,15 +2,6 @@ path = require 'path'
 
 prod = process.env.NODE_ENV is 'production'
 
-cors = ->
-    methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
-    if prod
-        origin: 'http://endaaman.me'
-        headers: ['Content-Type', 'Authorization', 'Accept', 'If-Modified-Since']
-        methods: methods
-    else
-        origin: true
-        methods: methods
 
 secret = ->
     if not process.env.SECRET
@@ -19,7 +10,6 @@ secret = ->
 
 
 module.exports =
-    cors: cors()
     uploadDir: '/var/uploaded/enda'
     basePath: '/'
     port: 3000
