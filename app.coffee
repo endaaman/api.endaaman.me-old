@@ -25,17 +25,28 @@ app
 .use bodyParser()
 .use json
     pretty: not config.prod
-
+.use require './lib/user'
+.use (next)->
+    try
+        yield next
+    catch e
+        if e instanceof mongoose.Error.ValidationError
+            @status = 422
+            @body = e.errors
+            return
+        else
+            throw e
 
 root = new Router
 
 api = new Router prefix: '/api'
-
+api.use (next)->
+    @set 'Access-Control-Allow-Origin', '*'
+    yield next
 api.use '/users', require './api/user'
 api.use '/session', require './api/session'
 api.use '/memos', require './api/memo'
 api.use '/files', require './api/file'
-api.use '/mecab', require './api/mecab'
 api.get '/', (next)->
     @body =
         message: 'Welcome to api.endaaman.me'
@@ -48,7 +59,6 @@ if not config.prod
         parts = @path.split '/'
         parts.splice 1, 1
         @path = parts.join '/'
-        console.log @path
         yield next
     , serve config.uploadDir
 

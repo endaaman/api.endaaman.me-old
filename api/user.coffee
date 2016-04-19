@@ -5,7 +5,7 @@ jwt = require 'jsonwebtoken'
 mongoose = require 'mongoose'
 
 config = require '../config'
-auth = (require '../lib/auth') true
+auth = require '../lib/auth'
 
 User = mongoose.model 'User'
 
@@ -15,26 +15,26 @@ bcryptGenSalt = Q.nbind bcrypt.genSalt, bcrypt
 bcryptHash = Q.nbind bcrypt.hash, bcrypt
 
 
-router.post '/', (next)->
-    valid = @request.body.username and @request.body.password
-    if not valid
-        @throw 400
-
-    doc = yield User.findOne username: @request.body.username
-    if doc
-        @throw 400
-
-    salt = yield bcryptGenSalt 10
-    hashed_password = yield bcryptHash @request.body.password, salt
-
-    user = new User
-        username: @request.body.username
-        hashed_password: hashed_password
-        approved: false
-
-    yield user.save()
-    @status = 204
-    yield next
+# router.post '/', (next)->
+#     valid = @request.body.username and @request.body.password
+#     if not valid
+#         @throw 400
+#
+#     doc = yield User.findOne username: @request.body.username
+#     if doc
+#         @throw 400
+#
+#     salt = yield bcryptGenSalt 10
+#     hashed_password = yield bcryptHash @request.body.password, salt
+#
+#     user = new User
+#         username: @request.body.username
+#         hashed_password: hashed_password
+#         approved: false
+#
+#     yield user.save()
+#     @status = 204
+#     yield next
 
 
 router.get '/', auth, (next)->

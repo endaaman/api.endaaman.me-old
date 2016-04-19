@@ -1,15 +1,14 @@
 _ = require 'lodash'
 mongoose = require 'mongoose'
 
-auth = (require '../lib/auth') true
-user = (require '../lib/auth') false
+auth = require '../lib/auth'
 config = require '../config'
 
 Memo = mongoose.model 'Memo'
 
 router = do require 'koa-router'
 
-router.get '/', user, (next)->
+router.get '/', (next)->
     query = {}
     if not @user
         query.draft = false
@@ -32,18 +31,26 @@ router.get '/', user, (next)->
 
 router.post '/', auth, (next)->
     memo = new Memo @request.body
-    memo.created_at = new Date
-    memo.updated_at = memo.created_at
-    try
-        @body = yield memo.save()
-        @status = 201
-    catch err
-        @body = err
-        @status = 422
+
+    @body = yield memo.save()
+    @status = 201
     yield next
 
 
-router.get '/:idOrTitle', user, (next)->
+router.patch '/:id', auth, (next)->
+    doc = yield Memo.findById @params.id
+    if not doc
+        @status = 404
+        return
+    _.assign doc, @request.body
+
+    @body = yield doc.save()
+    @status = 200
+    yield next
+
+
+
+router.get '/:idOrTitle', (next)->
     idOrTitle = @params.idOrTitle
     if /^[0-9a-fA-F]{24}$/.test idOrTitle
         doc = yield Memo.findById idOrTitle
@@ -61,24 +68,6 @@ router.get '/:idOrTitle', user, (next)->
     @body = doc
     yield next
 
-
-router.patch '/:id', auth, (next)->
-    doc = yield Memo.findById @params.id
-    if not doc
-        @status = 404
-        return
-    base = _.clone @request.body
-    delete base.created_at
-    base.updated_at = new Date
-    _.assign doc, base
-
-    try
-        @body = yield doc.save()
-        @status = 200
-    catch err
-        @body = err
-        @status = 422
-    yield next
 
 
 router.delete '/:id', auth, (next)->

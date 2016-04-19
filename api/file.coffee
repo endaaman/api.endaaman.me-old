@@ -7,7 +7,7 @@ parse = require 'co-busboy'
 cp = require 'fs-cp'
 destroy = require 'destroy'
 
-auth = (require '../lib/auth') true
+auth = require '../lib/auth'
 config = require '../config'
 
 router = do require 'koa-router'
@@ -20,7 +20,12 @@ filterFunc = (filename)->
 
 
 router.get '/', auth, (next)->
-    files = yield fs.readdir config.uploadDir
+    all = yield fs.readdir config.uploadDir
+    files = []
+    for i in all
+        stat = yield fs.stat(file)
+        if stat.isFile()
+            files.push(i)
     @body = _.filter files, filterFunc
     yield next
 

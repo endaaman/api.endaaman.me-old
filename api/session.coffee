@@ -4,7 +4,7 @@ bcrypt = require 'bcrypt'
 jwt = require 'jsonwebtoken'
 mongoose = require 'mongoose'
 
-auth = (require '../lib/auth') true
+auth = require '../lib/auth'
 config = require '../config'
 
 
@@ -22,16 +22,12 @@ router.post '/', (next)->
         @throw 401
         return
 
-    if not doc.approved
-        @throw 401
-        return
-
-    ok = yield bcryptCompare @request.body.password, doc.hashed_password
+    ok = yield bcryptCompare @request.body.password, doc.password
     if not ok
         @throw 401
         return
 
-    user = _.pick doc, ['_id', 'username', 'approved']
+    user = _.pick doc, ['_id', 'username']
 
     token = jwt.sign (_id: doc._id), config.secret
     @body =
