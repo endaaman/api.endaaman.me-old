@@ -1,4 +1,3 @@
-
 path = require 'path'
 fs = require 'co-fs'
 _ = require 'lodash'
@@ -13,31 +12,48 @@ config = require '../config'
 router = do require 'koa-router'
 
 
-filterFunc = (filename)->
-    if /^\./.test filename
-        return false
-    true
+readStats = (filenames)->
+    results = []
+    for filename in filenames
+        if /^\./.test filename
+            continue
+        stat = yield fs.stat path.join config.uploadDir, filename
+        if stat.isFile()
+            results.push
+                name: filename
+                size: stat.size
+                atime: stat.atime
+                ctime: stat.ctime
+                mtime: stat.mtime
 
+    results
 
 router.get '/', auth, (next)->
-    all = yield fs.readdir config.uploadDir
-    files = []
-    for i in all
-        stat = yield fs.stat(file)
-        if stat.isFile()
-            files.push(i)
-    @body = _.filter files, filterFunc
+    filenames = yield fs.readdir config.uploadDir
+    files = yield readStats filenames
+
+    # files.sort (a, b)->
+    #     _a = a.name.toLowerCase a.name
+    #     _b = b.name.toLowerCase b.name
+    #     return -1 if _a < _b
+    #     return 1 if _a > _b
+    #     0
+    @body = yield readStats filenames
+
     yield next
 
 
 router.post '/', auth, (next)->
     parts = parse this,
         autoFields: true
+    filenames = []
     while part = yield parts
-        filepath = path.join config.uploadDir, part.filename
-        yield cp part, filepath
+        # NOTE: transform to lower case
+        filename = part.filename.toLowerCase()
+        filenames.push filename
+        yield cp part, path.join config.uploadDir, filename
 
-    @status = 204
+    @body = yield readStats filenames
     yield next
 
 router.delete '/:filename', auth, (next)->
@@ -47,10 +63,13 @@ router.delete '/:filename', auth, (next)->
 
 
 router.post '/rename', auth, (next)->
-    oldPath = path.join config.uploadDir, @request.body.filename
-    newPath = path.join config.uploadDir, @request.body.new_filename
+    # NOTE: transform to lower case
+    newName = @request.body.newName.toLowerCase()
+    oldPath = path.join config.uploadDir, @request.body.oldName
+    newPath = path.join config.uploadDir, newName
     yield fs.rename oldPath, newPath
-    @status = 204
+
+    @body = (yield readStats [newName])[0]
     yield next
 
 
