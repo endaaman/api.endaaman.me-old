@@ -1,18 +1,20 @@
 path = require 'path'
+crypto = require 'crypto'
 
 prod = process.env.NODE_ENV is 'production'
 
-
 secret = ->
-    if not process.env.SECRET
-        console.warn 'secret was set dengerous key'
-    process.env.SECRET or 'THIS_IS_DENGEROUS_SECRET'
+    crypto.randomBytes(48).toString 'hex'
 
+mongoPath = ->
+    host = process.env.MONGO_HOST or 'localhost:27017'
+
+    "mongodb://#{host}/enda"
 
 module.exports =
+    prod: prod
     uploadDir: '/var/uploaded/enda'
     basePath: '/'
     port: 3000
-    portSeo: 3001
     secret: secret()
-    db: 'mongodb://localhost:27017/enda'
+    db: mongoPath()
