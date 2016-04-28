@@ -25,12 +25,13 @@ ADD nginx/enda-api.conf /etc/nginx/sites-enabled
 ADD supervisor.conf /etc/supervisor/conf.d/
 
 RUN mkdir -p /var/www/enda-api
-WORKDIR /var/www/enda-api
 
-ADD package.json ./
-RUN npm install
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN mkdir -p /var/www/enda-api && cp -a /tmp/node_modules /var/www/enda-api/
 
 ADD . /var/www/enda-api
+WORKDIR /var/www/enda-api
 
 CMD ["/usr/bin/supervisord"]
 
