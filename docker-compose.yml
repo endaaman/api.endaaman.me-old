@@ -1,0 +1,8 @@
+enda-api:
+  build: .
+  environment:
+    VIRTUAL_HOST: api.endaaman.me,api.enda.local
+    MONGO_HOST: 172.17.0.1:27017
+  volumes:
+    - /var/uploaded/enda:/var/uploaded/enda
+  restart: always
