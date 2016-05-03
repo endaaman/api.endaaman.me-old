@@ -17,6 +17,10 @@ module.exports = new Schema
         type: Boolean
         required: true
 
+    image_url:
+        type: String
+        default: ''
+
     content:
         type: String
         required: true
@@ -24,7 +28,7 @@ module.exports = new Schema
     created_at:
         type: Date
         default: Date.now
-        
+
     updated_at:
         type: Date
         default: Date.now
