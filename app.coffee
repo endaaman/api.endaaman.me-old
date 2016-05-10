@@ -33,7 +33,7 @@ app
     methods = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE']
     @set 'Access-Control-Allow-Methods', methods.join ','
 
-    headers = ['Content-Type', 'Authorization', 'Accept']
+    headers = ['Content-Type', 'Authorization', 'Accept', 'If-Modified-Since']
     @set 'Access-Control-Allow-Headers', headers.join ','
     if @method is 'OPTIONS'
         @status = 204
