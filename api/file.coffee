@@ -31,13 +31,6 @@ readStats = (filenames)->
 router.get '/', auth, (next)->
     filenames = yield fs.readdir config.uploadDir
     files = yield readStats filenames
-
-    # files.sort (a, b)->
-    #     _a = a.name.toLowerCase a.name
-    #     _b = b.name.toLowerCase b.name
-    #     return -1 if _a < _b
-    #     return 1 if _a > _b
-    #     0
     @body = yield readStats filenames
 
     yield next

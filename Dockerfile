@@ -19,7 +19,6 @@ RUN \
   echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
   rm /etc/nginx/sites-enabled/default
 
-RUN mkdir -p /data/db
 
 ADD nginx/enda-api.conf /etc/nginx/sites-enabled
 ADD supervisor.conf /etc/supervisor/conf.d/
