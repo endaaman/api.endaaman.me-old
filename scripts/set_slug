@@ -1,0 +1,29 @@
+#!/usr/bin/env coffee
+
+co = require 'co'
+mongoose = require 'mongoose'
+
+config = require '../config'
+
+finalizer = ->
+  mongoose.disconnect()
+
+mongoose.model 'Memo', require "../model/memo"
+mongoose.connect config.db
+
+co ->
+  Memo = mongoose.model 'Memo'
+  docs = yield Memo.find()
+  for doc in docs
+    if not doc.slug
+      doc.slug = doc._id
+      yield doc.save()
+
+  console.log 'done'
+  finalizer()
+
+.catch (err)->
+  console.error err
+  finalizer()
+
+process.on 'SIGINT', finalizer

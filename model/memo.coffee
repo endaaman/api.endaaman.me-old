@@ -3,11 +3,13 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
 module.exports = new Schema
+    slug:
+        type: String
+        required: true
+
     title:
         type: String
         required: true
-        index:
-            unique: true
 
     digest:
         type: String

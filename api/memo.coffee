@@ -13,18 +13,7 @@ router.get '/', (next)->
     if not @user
         query.draft = false
 
-    fields = '-content'
-
-    opt =
-        sort:
-            created_at: -1
-
-    if limit = Number @query.limit
-        opt.limit = limit
-    if skip = Number @query.skip
-        opt.skip = skip
-
-    q = Memo.find query, fields, opt
+    q = Memo.find query, {}, sort: '-created_at'
     @body = yield q.exec()
     yield next
 
