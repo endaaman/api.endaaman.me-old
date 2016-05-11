@@ -18,6 +18,7 @@ module.exports = new Schema
     draft:
         type: Boolean
         required: true
+        default: false
 
     image_url:
         type: String
