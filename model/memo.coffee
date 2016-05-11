@@ -5,8 +5,7 @@ Schema = mongoose.Schema
 module.exports = new Schema
     slug:
         type: String
-        required: true
-
+        # required: true # auto set from _id
     title:
         type: String
         required: true
@@ -35,3 +34,7 @@ module.exports = new Schema
     updated_at:
         type: Date
         default: Date.now
+
+.pre　'save', (next)->
+    @slug = @_id
+    next()
