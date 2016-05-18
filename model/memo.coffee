@@ -36,5 +36,6 @@ module.exports = new Schema
         default: Date.now
 
 .pre　'save', (next)->
-    @slug = @_id
+    if not @slug
+        @slug = @_id
     next()
