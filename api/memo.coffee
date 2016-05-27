@@ -10,8 +10,8 @@ router = do require 'koa-router'
 
 router.get '/', (next)->
     query = {}
-    if not @user
-        query.draft = false
+    # if not @user
+    #     query.draft = false
 
     q = Memo.find query, {}, sort: '-created_at'
     @body = yield q.exec()
