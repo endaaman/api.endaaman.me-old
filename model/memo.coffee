@@ -14,6 +14,11 @@ module.exports = new Schema
         type: String
         default: ''
 
+    hidden:
+        type: Boolean
+        required: true
+        default: false
+
     draft:
         type: Boolean
         required: true
