@@ -11,8 +11,8 @@ ENV NODE_ENV production
 
 RUN curl -kL git.io/nodebrew | perl - setup
 ENV PATH /root/.nodebrew/current/bin:$PATH
-RUN nodebrew install-binary v4.4.3
-RUN nodebrew use v4.4.3
+RUN nodebrew install-binary v6.6.0
+RUN nodebrew use v6.6.0
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install
